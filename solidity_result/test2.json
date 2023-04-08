@@ -1,0 +1,38 @@
+{
+    "error": null,
+    "issues": [
+        {
+            "address": 1488,
+            "code": "_balance[to][_epoch] = balanceOf[to]",
+            "contract": "Token",
+            "description": "The transfer of token depends on the owner\nOwner-controlled storage variables have been found to affect ERC20 transfers",
+            "filename": "./solidity_examples/test2.sol",
+            "function": "transfer(address,uint256)",
+            "lineno": 59,
+            "max_gas_used": 84389,
+            "min_gas_used": 22634,
+            "severity": "High",
+            "sourceMap": ":36",
+            "swc-id": "120",
+            "title": "Dependence on an owner-controlled variable",
+            "tx_sequence": null
+        },
+        {
+            "address": 1705,
+            "code": "_balance[white_addr][_epoch] = balanceOf[white_addr]",
+            "contract": "Token",
+            "description": "The transfer of token depends on the owner\nTOwner-controlled storage variables have been found to affect ERC20 transfers",
+            "filename": "./solidity_examples/test2.sol",
+            "function": "transfer(address,uint256)",
+            "lineno": 60,
+            "max_gas_used": 114163,
+            "min_gas_used": 31178,
+            "severity": "High",
+            "sourceMap": ":52",
+            "swc-id": "120",
+            "title": "Dependence on an owner-controlled variable",
+            "tx_sequence": null
+        }
+    ],
+    "success": true
+}

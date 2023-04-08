@@ -1,0 +1,22 @@
+{
+    "error": null,
+    "issues": [
+        {
+            "address": 1043,
+            "code": "balanceOf[_to] += (_value - fee)",
+            "contract": "Token",
+            "description": "The amount of tokens sent exceeded the amount of tokens received\nThe amount received by recipent is lower than the one sent by sender 2",
+            "filename": "./solidity_examples/test1.sol",
+            "function": "transfer(address,uint256)",
+            "lineno": 18,
+            "max_gas_used": 53831,
+            "min_gas_used": 13075,
+            "severity": "High",
+            "sourceMap": ":32",
+            "swc-id": "121",
+            "title": "Charging token fee ",
+            "tx_sequence": null
+        }
+    ],
+    "success": true
+}

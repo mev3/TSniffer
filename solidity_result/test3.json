@@ -1,0 +1,38 @@
+{
+    "error": null,
+    "issues": [
+        {
+            "address": 2793,
+            "code": "balances[recipient] += (amount-10)",
+            "contract": "BTCPay",
+            "description": "The amount of tokens sent exceeded the amount of tokens received\nThe amount received by recipent is lower than the one sent by sender 2",
+            "filename": "./solidity_examples/test3.sol",
+            "function": "transfer(address,uint256)",
+            "lineno": 76,
+            "max_gas_used": 58862,
+            "min_gas_used": 16842,
+            "severity": "High",
+            "sourceMap": ":::-",
+            "swc-id": "121",
+            "title": "Charging token fee ",
+            "tx_sequence": null
+        },
+        {
+            "address": 2793,
+            "code": "balances[recipient] += (amount-10)",
+            "contract": "BTCPay",
+            "description": "The amount of tokens sent exceeded the amount of tokens received\nThe amount received by recipent is lower than the one sent by sender 2",
+            "filename": "./solidity_examples/test3.sol",
+            "function": "transferFrom(address,address,uint256)",
+            "lineno": 76,
+            "max_gas_used": 86322,
+            "min_gas_used": 23542,
+            "severity": "High",
+            "sourceMap": ":::-",
+            "swc-id": "121",
+            "title": "Charging token fee ",
+            "tx_sequence": null
+        }
+    ],
+    "success": true
+}
