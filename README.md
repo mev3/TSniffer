@@ -1,6 +1,6 @@
 # TSniffer
 
-TSniffer 是面向蜜罐代币的检测器，可检测的蜜罐代币类型包括：
+TSniffer 是面向恶意代币的检测器，可检测的恶意代币类型包括：
 - 带权限的代币转账
 	- 仅限白名单用户转账
 	- 禁止黑名单用户转账
@@ -30,7 +30,7 @@ $ python TSniffer.py analyze -f <bytecode-file> -t 3
 
 # Overview
 
-TSniffer 基于多交易组合和符号执行结合的代币安全检测器，其核心理念是遍历合约控制流图中的每个分支，通过符号执行的方式得到每个分支对应的符号摘要信息，而后组合多个符号摘要信息，进而检测蜜罐代币的存在性，其架构图如下：
+TSniffer 基于多交易组合和符号执行结合的代币安全检测器，其核心理念是遍历合约控制流图中的每个分支，通过符号执行的方式得到每个分支对应的符号摘要信息，而后组合多个符号摘要信息，进而检测恶意代币的存在性，其架构图如下：
 
 ![avatar](./img/TSniffer.png)
 
@@ -42,12 +42,12 @@ TSniffer 接收两种类型的输入：Solidity Smart Contract 和 EVM bytecode�
 - **Balances Extractor** 负责解析每个面向Storage的操作，并判定该Storage的语义是否为Token存储器（即，balancesOf），并判断操纵的是from的存储器（即，balancesOf[to]）还是to的存储器（即，balancesOf[to]）
 - **Metadata Generator**负责收集每个分支的符号化信息、状态条件信息和通过参考来自**Balances Extractor**的标记得到的代币账户更新信息。
 而后，**Metadata Generator**将每个分支（交易）的状态摘要信息输入**Core Detector**。
-- **Core Detector**将生成包含多个交易的组合信息，而后，通过求解器判定是否存在 1）transfer的路径由owner权限控制；2）在转账过程中，收款方收到金额小于发送方。若任意一个条件满足，TSniffer将其标记为蜜罐代币，并输出**Json Report**包含对应的代码信息和漏洞信息。
+- **Core Detector**将生成包含多个交易的组合信息，而后，通过求解器判定是否存在 1）transfer的路径由owner权限控制；2）在转账过程中，收款方收到金额小于发送方。若任意一个条件满足，TSniffer将其标记为恶意代币，并输出**Json Report**包含对应的代码信息和漏洞信息。
 
 
 ## Implementation
 
-TSniffer基于智能合约检测工具Mythril构建，Mythril是面向通用智能合约漏洞（如：重入漏洞）的安全分析工具，其实现了符号执行遍历程序的可行路径。本项目中**Symbolic Analysis Engine**模块基于Mythril构建，而后在此基础上实现了 **Metadata Generator**、**Balances Extractor**和**Core Detector**三个模块以支撑蜜罐代币的检测。
+TSniffer基于智能合约检测工具Mythril构建，Mythril是面向通用智能合约漏洞（如：重入漏洞）的安全分析工具，其实现了符号执行遍历程序的可行路径。本项目中**Symbolic Analysis Engine**模块基于Mythril构建，而后在此基础上实现了 **Metadata Generator**、**Balances Extractor**和**Core Detector**三个模块以支撑恶意代币的检测。
 
 ## Cases
 
@@ -69,7 +69,7 @@ function changeOwner (address _owner, uint _fee) public returns(bool)
   function transfer(address _to, uint _value) public returns (bool) {
     require(msg.sender == owner);
       balanceOf[msg.sender] -= _value;
-      balanceOf[_to] += value;
+      balanceOf[_to] += _value;
       return true;
   }
 }
@@ -157,7 +157,7 @@ Python TSniffer analyze -f ./solidity_examples/test.bin -t 3
 - 模拟执行：honeypot.is
 - GoPlus
 
-蜜罐类型：
+恶意类型：
 
 - O1: Static Limited Transfer，单笔交易触发，即单个转账交易$tx_{transfer}$失败，只有owner可以转账
 - O2: Dynamic Limited Transfer，需要至少两笔交易触发该场景：Owner监测到用户转账交易$tx_{transfer}$，发起将用户添加到黑名单中的交易$tx_{addblock}$ 使得$tx_{transfer}执行失败。
