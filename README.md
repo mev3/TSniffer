@@ -152,4 +152,27 @@ Python TSniffer analyze -f ./solidity_examples/test.bin -t 3
 ```
 
 
+### 竞品分析
+
+- 模拟执行：honeypot.is
+- GoPlus
+
+蜜罐类型：
+
+- O1: Static Limited Transfer，单笔交易触发，即单个转账交易$tx_{transfer}$失败，只有owner可以转账
+- O2: Dynamic Limited Transfer，需要至少两笔交易触发该场景：Owner监测到用户转账交易$tx_{transfer}$，发起将用户添加到黑名单中的交易$tx_{addblock}$ 使得$tx_{transfer}执行失败。
+
+- F1: Static Charging Fee，单笔交易触发，用户发送和执行转账交易$tx_{transfer}$时，交易fee均不为0。
+- F2: Dynamic Charging Fee，至少两笔交易触发，用户发送单个转账交易$tx_{transfer}$时，交易fee为0。但是owner发送一个front-running交易$tx_{addfee}$使得$tx_{transfer}$执行时扣除大量手续费。
+
+能力分析：
+
+**honeypot.is**: O1, F1
+
+**GoPlus**: O1, 部分支持O2, F1, 部分支持F2
+
+**TSniffer**: O1, O2, F1, F2
+
+
+
 
